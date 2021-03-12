@@ -14,7 +14,7 @@ from userge import Config, Message, userge
 @userge.on_cmd(
     "x",
     about={
-        "header": "USERGE-X",
+        "header": "KOUNTOL",
         "flags": {"-alt": "To get inverted X", "-ghost": "spooky ghost"},
     },
     check_downpath=True,
@@ -28,7 +28,7 @@ async def usx_(message: Message):
         path = "resources/logo.png"
 
     replied = message.reply_to_message
-    await message.edit("𝐗")
+    await message.edit("🐨")
     a = []
     for _ in range(2):
         r = random.randint(0, 255)
