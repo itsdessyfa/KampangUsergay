@@ -39,13 +39,7 @@ CHANNEL = userge.getCLogger(__name__)
 )
 async def check_update(message: Message):
     """ check or do updates """
-    await message.edit("`Memeriksa update terbaru KampangUsergay....`")
-    if Config.HEROKU_ENV:
-        await message.edit(
-            "**Heroku App terdeteksi !**, Hahaha mampus ke suspen lu 😂.\n"
-            "Yaaah heroku lu ke suspen , salah siapa update hahaha"
-        )
-        return
+    await message.edit("`Ada Updatean Baru Ga Nicccchh gaess 🐨....`")
     flags = list(message.flags)
     pull_from_repo = False
     push_to_heroku = False
@@ -57,8 +51,8 @@ async def check_update(message: Message):
         if not Config.HEROKU_APP:
             await message.err("HEROKU APP : could not be found !")
             return
-        # push_to_heroku = True
-        # flags.remove("push")
+        push_to_heroku = True
+        flags.remove("push")
     if len(flags) == 1:
         branch = flags[0]
     repo = Repo()
