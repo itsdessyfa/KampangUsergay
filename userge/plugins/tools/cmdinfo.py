@@ -1,7 +1,3 @@
-# Copyright (C) 2020 BY - GitHub.com/code-rgb [TG - @deleteduser420]
-# All rights reserved.
-
-
 import os
 
 from git import Repo
@@ -45,18 +41,25 @@ async def see_info(message: Message):
     if not found:
         return await message.err("provide a valid command name", del_in=5)
     repo = Repo()
-    branch = repo.active_branch.name
+    try:
+        branch = repo.active_branch.name
+    except Exception:
+        with open(".git/HEAD", "r") as gitfile:
+            branch = gitfile.read().split("/")[-1].strip()
     if branch == "master":
         branch = "alpha"
     plugin_name = userge.manager.commands[cmd_str].plugin_name
     plugin_loc = ("/" + userge.manager.plugins[plugin_name].parent).replace(
         "/plugins", ""
     )
-    if plugin_loc == "/unofficial":
-        unofficial_repo = (
+    if plugin_loc == "/xtra":
+        extra_plugins = (
             "https://github.com/code-rgb/Userge-Plugins/blob/master/plugins/"
         )
-        plugin_link = f"{unofficial_repo}/{plugin_name}.py"
+        plugin_link = f"{extra_plugins}/{plugin_name}.py"
+    elif plugin_loc == "/custom":
+        custom_plugins = Config.CUSTOM_PLUGINS_REPO + "/blob/main/plugins/"
+        plugin_link = f"{custom_plugins}/{plugin_name}.py"
     elif plugin_loc == "/temp":
         plugin_link = False
     else:
@@ -68,7 +71,6 @@ async def see_info(message: Message):
     search_path = count_lines(local_path, word)
     result = f"""
 <b>•>  CMD:</b>  <code>{cmd_str}</code>
-
 📂  <b>Path :</b>  <code>{local_path}</code><pre>
   - Size on Disk: {f_size}
   - No. of lines: {search_path[0]}</pre>
@@ -81,9 +83,7 @@ async def see_info(message: Message):
         if len(search_path[1]) == 0:
             s_result += "  ❌  Not Found !"
         else:
-            line_c = 0
-            for line in search_path[1]:
-                line_c += 1
+            for line_c, line in enumerate(search_path[1], start=1):
                 s_result += f"[#L{line}]({plugin_link}#L{line})  "
                 if line_c >= 8:
                     break
@@ -97,8 +97,7 @@ def count_lines(cmd_path: str, word: str = None):
     if word:
         word = word.strip().lower()
     with open(cmd_path, "r") as f:
-        for line in f:
-            num_lines += 1
+        for num_lines, line in enumerate(f, start=1):
             if word and word in line.lower():
                 arr.append(num_lines)
     return num_lines, arr
