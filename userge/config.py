@@ -37,7 +37,7 @@ class Config:
     DB_URI = os.environ.get("mongodb+srv://Daisyfa:searev12@cluster0.7241a.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
     LANG = os.environ.get("PREFERRED_LANGUAGE")
     DOWN_PATH = os.environ.get("DOWN_PATH")
-    CMD_TRIGGER = os.environ.get("CMD_TRIGGER")
+    CMD_TRIGGER = os.environ.get(".")
     SUDO_TRIGGER = os.environ.get("SUDO_TRIGGER")
     FINISHED_PROGRESS_STR = os.environ.get("FINISHED_PROGRESS_STR")
     UNFINISHED_PROGRESS_STR = os.environ.get("UNFINISHED_PROGRESS_STR")
